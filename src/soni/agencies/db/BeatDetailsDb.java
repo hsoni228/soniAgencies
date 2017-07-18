@@ -56,7 +56,7 @@ public class BeatDetailsDb {
         return beats;
     }
     
-    public void updateBeat(Connection conn, String oldBeat, String newBeat){
+    public boolean updateBeat(Connection conn, String oldBeat, String newBeat){
         String query = "update beat_details b, shopkeeper_details s set b.beat_name = ?, s.beat = ? where b.beat_name = ? and s.beat = ?";
         
         try {
@@ -70,6 +70,8 @@ public class BeatDetailsDb {
         } catch (SQLException e) {
             System.out.println(e);
             JOptionPane.showMessageDialog(null, "Unable to edit beat details", "Error ", JOptionPane.ERROR_MESSAGE);
+            return false;
         }
+        return true;
     }
 }

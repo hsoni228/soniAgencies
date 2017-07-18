@@ -26,6 +26,7 @@ public class BeatName extends javax.swing.JFrame {
         Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
         this.setLocation(dim.width / 2 - this.getSize().width / 2, dim.height / 2 - this.getSize().height / 2);
         jTextFieldBeatNew.grabFocus();
+        this.getRootPane().setDefaultButton(jButtonBeatUpdate);
     }
 
     public BeatName(Connection conn, String beat) {
@@ -112,8 +113,11 @@ public class BeatName extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButtonBeatUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonBeatUpdateActionPerformed
-        new BeatDetailsDb().updateBeat(conn, jTextFieldBeatOld.getText(), jTextFieldBeatNew.getText());
-        this.dispose();
+        boolean result = new BeatDetailsDb().updateBeat(conn, jTextFieldBeatOld.getText(), jTextFieldBeatNew.getText());
+        if(result){
+            new BeatDetails(conn).setVisible(true);
+            this.dispose();
+        }
     }//GEN-LAST:event_jButtonBeatUpdateActionPerformed
 
     /**

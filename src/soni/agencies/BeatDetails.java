@@ -394,8 +394,10 @@ public class BeatDetails extends javax.swing.JFrame {
 
     private void jButtonEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonEditActionPerformed
         String beat = jComboBoxBeat.getSelectedItem().toString();
-        if(!beat.equalsIgnoreCase("Select Beat"))
+        if(!beat.equalsIgnoreCase("Select Beat")){
             new BeatName(conn, beat).setVisible(true);
+            this.dispose();
+        }
     }//GEN-LAST:event_jButtonEditActionPerformed
 
     /**
