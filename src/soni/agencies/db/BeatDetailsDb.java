@@ -8,7 +8,6 @@ package soni.agencies.db;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
-import java.sql.Statement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.HashSet;
@@ -21,18 +20,17 @@ import javax.swing.JOptionPane;
  */
 public class BeatDetailsDb {
 
-    Statement st;
-
     public BeatDetailsDb() {
 
     }
 
     public boolean saveData(Connection con, String beat) {
         
-        String query = "insert into beat_details(beat_name) values('"+beat+"')";
+        String query = "insert into beat_details(beat_name) values(?)";
         try {
-            st = con.createStatement();
-            st.executeUpdate(query);
+            PreparedStatement ps = con.prepareStatement(query);
+            ps.setString(1, beat);
+            ps.executeUpdate();
         } catch (SQLException e) {
             System.out.println(e);
             JOptionPane.showMessageDialog(null, "Unable to add beat details", "Error ", JOptionPane.ERROR_MESSAGE);
@@ -59,17 +57,19 @@ public class BeatDetailsDb {
     }
     
     public void updateBeat(Connection conn, String oldBeat, String newBeat){
-        String query = "update beat_details set beat_name = '"+newBeat+"' where beat_name = '"+oldBeat+"'";
-        String query2 = "update shopkeeper_details set beat = '"+newBeat+"' where beat = '"+oldBeat+"'";
+        String query = "update beat_details b, shopkeeper_details s set b.beat_name = ?, s.beat = ? where b.beat_name = ? and s.beat = ?";
         
         try {
-            st = conn.createStatement();
-            st.executeUpdate(query);
+            PreparedStatement ps = conn.prepareStatement(query);
+            ps.setString(1, newBeat);
+            ps.setString(2, newBeat);
+            ps.setString(3, oldBeat);
+            ps.setString(4, oldBeat);
+            ps.executeUpdate();
             
-            st = conn.createStatement();
-            st.executeUpdate(query2);
         } catch (SQLException e) {
             System.out.println(e);
+            JOptionPane.showMessageDialog(null, "Unable to edit beat details", "Error ", JOptionPane.ERROR_MESSAGE);
         }
     }
 }
