@@ -1,0 +1,23 @@
+CREATE DATABASE `soni_agencies`;
+
+CREATE TABLE `beat_details` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `beat_name` varchar(80) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=latin1;
+
+CREATE TABLE `shopkeeper_details` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `beat` varchar(80) NOT NULL,
+  `name` varchar(100) NOT NULL,
+  `mobile_no` varchar(45) DEFAULT NULL,
+  `gst_no` varchar(45) DEFAULT NULL,
+  `adhaar_no` varchar(45) DEFAULT NULL,
+  `pan_no` varchar(45) DEFAULT NULL,
+  `composition_no` varchar(45) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `idx_shopkeeper_details_beat` (`beat`)
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=latin1;
+
+
+
