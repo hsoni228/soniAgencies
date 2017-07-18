@@ -7,6 +7,8 @@ package soni.agencies;
 
 import java.awt.Dimension;
 import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
+import java.awt.event.KeyEvent;
 import java.awt.print.PrinterException;
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -18,7 +20,10 @@ import java.util.List;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.AbstractAction;
+import javax.swing.JComponent;
 import javax.swing.JTable;
+import javax.swing.KeyStroke;
 import javax.swing.table.DefaultTableModel;
 import soni.agencies.data.ShopkeepersData;
 import soni.agencies.db.BeatDetailsDb;
@@ -39,13 +44,12 @@ public class BeatDetails extends javax.swing.JFrame {
         initComponents();
         shopkeeperData = new ArrayList<>();
         this.getRootPane().setDefaultButton(jButtonAdd);
+        doFrameConfiguration();
     }
 
     public BeatDetails(Connection conn) {
         this();
         this.conn = conn;
-        Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
-        this.setLocation(dim.width / 2 - this.getSize().width / 2, dim.height / 2 - this.getSize().height / 2);
         updateBeatDetails();
     }
     
@@ -539,5 +543,19 @@ public class BeatDetails extends javax.swing.JFrame {
         for(ShopkeepersData data : shopkeeperData){
             model.addRow(new Object[]{i++, data.getId(), data.getBeat(), data.getName(), data.getMobileNo(), data.getGstNo(), data.getAdhaarNo(), data.getPanNo(), data.getCompositionNo()});
         }
+    }
+
+    private void doFrameConfiguration() {
+        Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
+        this.setLocation(dim.width / 2 - this.getSize().width / 2, dim.height / 2 - this.getSize().height / 2);
+        
+        this.getRootPane().getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), "Cancel");
+        this.getRootPane().getActionMap().put("Cancel", new AbstractAction()
+        { 
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                dispose();
+            }
+       });
     }
 }

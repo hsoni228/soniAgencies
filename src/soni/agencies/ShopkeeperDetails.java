@@ -7,9 +7,14 @@ package soni.agencies;
 
 import java.awt.Dimension;
 import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
+import java.awt.event.KeyEvent;
 import java.sql.Connection;
 import java.util.Iterator;
 import java.util.Set;
+import javax.swing.AbstractAction;
+import javax.swing.JComponent;
+import javax.swing.KeyStroke;
 import soni.agencies.data.ShopkeepersData;
 import soni.agencies.db.BeatDetailsDb;
 import soni.agencies.db.ShopkeeperDetailsDb;
@@ -27,8 +32,7 @@ public class ShopkeeperDetails extends javax.swing.JFrame {
     private BeatDetails beatDetails;
     public ShopkeeperDetails() {
         initComponents();
-        Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
-        this.setLocation(dim.width / 2 - this.getSize().width / 2, dim.height / 2 - this.getSize().height / 2);
+        doFrameConfiguration();
         jLabelId.setVisible(false);
         jButtonUpdateDetails.setEnabled(false);
         jButtonDeleteDetails.setEnabled(false);
@@ -401,5 +405,19 @@ public class ShopkeeperDetails extends javax.swing.JFrame {
         while(itr.hasNext()){
             jComboBoxBeat.addItem(itr.next());
         }
+    }
+    
+    private void doFrameConfiguration() {
+        Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
+        this.setLocation(dim.width / 2 - this.getSize().width / 2, dim.height / 2 - this.getSize().height / 2);
+        
+        this.getRootPane().getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), "Cancel");
+        this.getRootPane().getActionMap().put("Cancel", new AbstractAction()
+        { 
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                dispose();
+            }
+       });
     }
 }
